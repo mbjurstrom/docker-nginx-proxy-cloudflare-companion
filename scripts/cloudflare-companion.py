@@ -63,7 +63,7 @@ def check_container(c, domains):
                 proxied = True
             elif value.upper() == 'False':
                 proxied = False
-            else
+            else:
                 print('Invalid CF_PROXIED VALUE for container {}'.format('TODO find way to get name'))
     for virtual_domain in virtual_domains:
         point_domain(virtual_domain, domains, {'proxied': proxied})
