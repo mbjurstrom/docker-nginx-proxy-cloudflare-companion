@@ -66,7 +66,7 @@ def check_container(c, domains):
             else:
                 print('Invalid CF_PROXIED VALUE for container {}'.format('TODO find way to get name'))
     for virtual_domain in virtual_domains:
-        point_domain(virtual_domain, domains, 'proxied'=proxied)
+        point_domain(virtual_domain, domains, proxied = proxied)
 
 def init(domains):
     for c in client.containers.list(all=True):
