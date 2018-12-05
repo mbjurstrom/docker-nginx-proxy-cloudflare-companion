@@ -38,7 +38,10 @@ def point_domain(name,domains, **kwargs):
     try:
         for domain in domains:
             if name.find(domain['domain']) != -1:
-                proxied = kwargs.get('proxied', domain['proxied']) 
+                #TODO improve this
+                proxied = kwargs.get('proxied', None)
+                if not proxied:
+                    proxied = domain['proxied'] 
                 r = cf.zones.dns_records.post(domain['zone_id'],data={u'type': u'CNAME', u'name': name, u'content': domain['domain'], u'ttl': 120, u'proxied': proxied} )
             #TODO add better error checking here 
     except CloudFlare.exceptions.CloudFlareAPIError as e:
@@ -61,10 +64,10 @@ def check_container(c, domains):
             value = prop.split("=")[1].strip()
             if value.upper() == 'TRUE':
                 proxied = True
-            elif value.upper() == 'False':
+            elif value.upper() == 'FALSE':
                 proxied = False
             else:
-                print('Invalid CF_PROXIED VALUE for container {}'.format('TODO find way to get name'))
+                print('Invalid CF_PROXIED value for container {}'.format('TODO find way to get name'))
     for virtual_domain in virtual_domains:
         point_domain(virtual_domain, domains, proxied = proxied)
 
