@@ -50,7 +50,7 @@ def check_container(c, domains):
     proxied = None
     for prop in c.attrs.get(u'Config').get(u'Env'):
         virtual_hosts = {}
-         if u'VIRTUAL_HOST' in prop or u'DNS_NAME' in prop:#todo add other parameters here like container specific proxy setting and ttl setting
+        if u'VIRTUAL_HOST' in prop or u'DNS_NAME' in prop:#todo add other parameters here like container specific proxy setting and ttl setting
             value = prop.split("=")[1].strip()
             if ',' in value:
                 for v in value.split(","):
