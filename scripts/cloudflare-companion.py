@@ -34,26 +34,39 @@ def get_domains():
             
         # print('{} = {}'.format(env_key, os.getenv(env_key)))
     
-def point_domain(name,domains):
+def point_domain(name,domains, **kwargs):
     try:
         for domain in domains:
             if name.find(domain['domain']) != -1:
-                r = cf.zones.dns_records.post(domain['zone_id'],data={u'type': u'CNAME', u'name': name, u'content': domain['domain'], u'ttl': 120, u'proxied': domain['proxied']} )
+                proxied = kwargs.get('proxied', domain['proxied']) 
+                r = cf.zones.dns_records.post(domain['zone_id'],data={u'type': u'CNAME', u'name': name, u'content': domain['domain'], u'ttl': 120, u'proxied': proxied} )
             #TODO add better error checking here 
     except CloudFlare.exceptions.CloudFlareAPIError as e:
         print '/zones.dns_records.post %s - %d %s' % (name, e, e)
 
 
 def check_container(c, domains):
+    virtual_domains = []
+    proxied = None
     for prop in c.attrs.get(u'Config').get(u'Env'):
+        virtual_hosts = {}
          if u'VIRTUAL_HOST' in prop or u'DNS_NAME' in prop:#todo add other parameters here like container specific proxy setting and ttl setting
             value = prop.split("=")[1].strip()
             if ',' in value:
                 for v in value.split(","):
-                    point_domain(v, domains)
+                    virtual_domains.append(v)
             else:
-                point_domain(value, domains)
-
+                virtual_domains.append(value)
+        elif u'CF_PROXIED' in prop:
+              value = prop.split("=")[1].strip()
+            if value.upper() == 'TRUE':
+                proxied = True
+            elif value.upper() == 'False':
+                proxied = False
+            else
+                print('Invalid CF_PROXIED VALUE for container {}'.format('TODO find way to get name'))
+    for virtual_domain in virtual_domains:
+        point_domain(virtual_domain, domains, {'proxied': proxied})
 
 def init(domains):
     for c in client.containers.list(all=True):
