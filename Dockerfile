@@ -22,6 +22,6 @@ MAINTAINER Dave Conroy <dave at tiredofit dot ca>
         rm -rf /var/cache/apk/*
 
 ### Add Files
-COPY scripts/cloudflare-companion.py .
+COPY scripts/cloudflare-companion.py ./scripts/cloudflare-companion.py
 
 CMD [ "python", "-u","./scripts/cloudflare-companion.py" ]
