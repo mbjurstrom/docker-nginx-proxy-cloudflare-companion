@@ -40,7 +40,7 @@ def point_domain(name,domains, **kwargs):
             if name.find(domain['domain']) != -1:
                 #TODO improve this
                 proxied = kwargs.get('proxied', None)
-                if not proxied:
+                if proxied is not None:
                     proxied = domain['proxied'] 
                 r = cf.zones.dns_records.post(domain['zone_id'],data={u'type': u'CNAME', u'name': name, u'content': domain['domain'], u'ttl': 120, u'proxied': proxied} )
             #TODO add better error checking here 
@@ -61,6 +61,7 @@ def check_container(c, domains):
             else:
                 virtual_domains.append(value)
         elif u'CF_PROXIED' in prop:
+            print('proxy value found')
             value = prop.split("=")[1].strip()
             if value.upper() == 'TRUE':
                 proxied = True
