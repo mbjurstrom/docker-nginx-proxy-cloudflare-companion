@@ -58,7 +58,7 @@ def check_container(c, domains):
             else:
                 virtual_domains.append(value)
         elif u'CF_PROXIED' in prop:
-              value = prop.split("=")[1].strip()
+            value = prop.split("=")[1].strip()
             if value.upper() == 'TRUE':
                 proxied = True
             elif value.upper() == 'False':
