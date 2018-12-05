@@ -43,15 +43,15 @@ def point_domain(name,domains):
         print '/zones.dns_records.post %s - %d %s' % (name, e, e)
 
 
-def check_container(c):
+def check_container(c, domains):
     for prop in c.attrs.get(u'Config').get(u'Env'):
          if u'VIRTUAL_HOST' in prop or u'DNS_NAME' in prop:#todo add other parameters here like container specific proxy setting and ttl setting
             value = prop.split("=")[1].strip()
             if ',' in value:
                 for v in value.split(","):
-                    point_domain(v)
+                    point_domain(v, domains)
             else:
-                point_domain(value)
+                point_domain(value, domains)
 
 
 def init(domains):
