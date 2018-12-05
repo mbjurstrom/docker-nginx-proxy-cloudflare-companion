@@ -26,7 +26,8 @@ def get_domains():
                     proxied = False
             except KeyError:
                 print('{}_PROXIED is not defined defaulting to False'.format(env_key.strip()))
-            proxied = False
+                proxied = False
+                
             domain['proxied'] =  proxied 
             domains.append(domain)
     return domains
