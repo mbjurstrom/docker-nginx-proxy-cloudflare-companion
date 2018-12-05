@@ -34,10 +34,11 @@ def get_domains():
         # print('{} = {}'.format(env_key, os.getenv(env_key)))
     
 def point_domain(name,domains):
-    for domain in domains:
-        if name.find(domain['domain']) != -1:
-            r = cf.zones.dns_records.post(domain['ZONE_ID'],data={u'type': u'CNAME', u'name': name, u'content': domain['domain'], u'ttl': 120, u'proxied': domain['proxied']} )
-        #TODO add better error checking here 
+    try:
+        for domain in domains:
+            if name.find(domain['domain']) != -1:
+                r = cf.zones.dns_records.post(domain['ZONE_ID'],data={u'type': u'CNAME', u'name': name, u'content': domain['domain'], u'ttl': 120, u'proxied': domain['proxied']} )
+            #TODO add better error checking here 
     except CloudFlare.exceptions.CloudFlareAPIError as e:
         print '/zones.dns_records.post %s - %d %s' % (name, e, e)
 
