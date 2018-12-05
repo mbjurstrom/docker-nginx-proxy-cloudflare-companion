@@ -32,7 +32,7 @@ EOF
             proxied_flag${i} = False
 
         if name.find(domain${i}) != -1:
-            r = cf.zones.dns_records.post(zone_id${i},data={u'type': u'CNAME', u'name': name, u'content': target_domain, u'ttl': 120, u'proxied': proxied_flag${i}} )
+            r = cf.zones.dns_records.post(zone_id${i},data={u'type': u'CNAME', u'name': name, u'content': domain${i}, u'ttl': 120, u'proxied': proxied_flag${i}} )
 
 EOF
 done
@@ -69,10 +69,6 @@ try:
 except KeyError as e:
     exit('TOKEN not defined')
 
-try:
-    target_domain = os.environ['TARGET_DOMAIN']
-except KeyError as e:
-    exit('TARGET_DOMAIN not defined')
 
 try:
     domain = os.environ['DOMAIN1']

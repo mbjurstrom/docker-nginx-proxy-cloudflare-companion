@@ -61,7 +61,6 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 |-----------|-------------|
 | `CF_EMAIL` | Your Cloudflare Email Address |
 | `CF_TOKEN` | Token for the Domain |
-| `TARGET_DOMAIN` | Destination Host to forward records to e.g. ``host.example.com` |
 | `DOMAIN1`   | Domain 1 you wish to update records for. |
 | `DOMAIN1_ZONE_ID`   | Domain 1 Zone ID from Cloudflare |
 | `DOMAIN1_PROXIED`   | Domain 1 True of False if proxied |
