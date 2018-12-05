@@ -12,7 +12,7 @@ from datetime import datetime
 def get_domains():
     domains = []
     for env_key in os.environ:
-        if env_key.startswith('DOMAIN') and not env_key.endswith('ZONE_ID'): #ugly hack with endswith
+        if env_key.startswith('DOMAIN') and not env_key.endswith('ZONE_ID') and not env_key.endswith('PROXIED') : #ugly hack with endswith
             domain = {}
             domain['domain'] = os.getenv(env_key)
             try:
